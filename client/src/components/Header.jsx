@@ -22,8 +22,8 @@ export default function Header() {
           <Link to="/about">
             <li className="text-white hover:underline">About</li>
           </Link>
-          <Link to="/sign-in">
-            <li className="text-white hover:underline">Sign in</li>
+          <Link to="/sign-up">
+            <li className="text-white hover:underline">Sign up</li>
           </Link>
         </ul>
       </div>
