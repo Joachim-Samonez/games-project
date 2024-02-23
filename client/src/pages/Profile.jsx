@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   updateUserStart,
   updateUserSuccess,
@@ -111,6 +112,12 @@ const Profile = () => {
         >
           {loading ? "Loading" : "UPDATE"}
         </button>
+        <Link
+          className="bg-green-700 text-white p-3 rounded-lg text-center hover:opacity-95"
+          to={"/review"}
+        >
+          GAMES REVIEW
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span

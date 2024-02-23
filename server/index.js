@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import reviewRouter from "./routes/review.route.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.get("/test", (req, res) => {
 
 app.use("/server/auth", authRouter);
 app.use("/server/user", userRouter);
+app.use("/server/review", reviewRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
