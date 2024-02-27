@@ -19,6 +19,8 @@ const Profile = () => {
 
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showReviewsError, setShowReviewsError] = useState(false);
+  const [userReviews, setUserReviews] = useState([]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -81,6 +83,21 @@ const Profile = () => {
     }
   };
 
+  const handleShowReviews = async () => {
+    try {
+      setShowReviewsError(false);
+      const res = await fetch(`/server/user/reviews/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowReviewsError(true);
+        return;
+      }
+      setUserReviews(data);
+    } catch (error) {
+      setShowReviewsError(true);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Profile</h1>
@@ -134,6 +151,34 @@ const Profile = () => {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User is updated successfully" : ""}
       </p>
+      <button onClick={handleShowReviews} className="text-green-700 w-full">
+        Show Reviews
+      </button>
+      <p className="text-red-700 mt-5">
+        {showReviewsError ? "Error displaying reviews" : ""}
+      </p>
+
+      {userReviews &&
+        userReviews.length > 0 &&
+        userReviews.map((reviews) => (
+          <div
+            key={reviews._id}
+            className="border rounded-lg p-3 flex justify-between items-center"
+          >
+            <Link to={`/reviews/${reviews._id}`}>
+              <img
+                src={reviews.imageUrls[0]}
+                className="h-16 w-16 object-contain"
+              ></img>
+            </Link>
+            <Link
+              className="text-slate-700 font-semibold hover:underline truncate flex-1"
+              to={`/reviews/${reviews._id}`}
+            >
+              <p>{reviews.title}</p>
+            </Link>
+          </div>
+        ))}
     </div>
   );
 };
