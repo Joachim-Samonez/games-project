@@ -158,27 +158,36 @@ const Profile = () => {
         {showReviewsError ? "Error displaying reviews" : ""}
       </p>
 
-      {userReviews &&
-        userReviews.length > 0 &&
-        userReviews.map((reviews) => (
-          <div
-            key={reviews._id}
-            className="border rounded-lg p-3 flex justify-between items-center"
-          >
-            <Link to={`/reviews/${reviews._id}`}>
-              <img
-                src={reviews.imageUrls[0]}
-                className="h-16 w-16 object-contain"
-              ></img>
-            </Link>
-            <Link
-              className="text-slate-700 font-semibold hover:underline truncate flex-1"
-              to={`/reviews/${reviews._id}`}
+      {userReviews && userReviews.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center my-7 text-2xl font-semibold">
+            Your Reviews
+          </h1>
+          {userReviews.map((review) => (
+            <div
+              key={review._id}
+              className="border rounded-lg p-3 flex justify-between items-center gap-4"
             >
-              <p>{reviews.title}</p>
-            </Link>
-          </div>
-        ))}
+              <Link to={`/review/${review._id}`}>
+                <img
+                  src={review.imageUrls[0]}
+                  className="h-16 w-16 object-contain"
+                ></img>
+              </Link>
+              <Link
+                to={`/review/${review._id}`}
+                className="text-slate-700 font-semibold hover:underline truncate flex-1"
+              >
+                <p>{review.title}</p>
+              </Link>
+              <div className="flex flex-col item-center">
+                <button className="text-red-700">DELETE</button>
+                <button className="text-green-700">EDIT</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
