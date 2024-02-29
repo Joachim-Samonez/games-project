@@ -16,7 +16,6 @@ export default function Review() {
   const [formData, setFormData] = useState({
     imageUrls: [],
     title: "",
-    author: "",
     review: "",
     pc: false,
     playstation: false,

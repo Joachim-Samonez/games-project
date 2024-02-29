@@ -45,7 +45,7 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getUserReviews = async (req, res, next) => {
-  if (req.user.id !== req.params.id) {
+  if (req.user.id === req.params.id) {
     try {
       const reviews = await Review.find({ userRef: req.params.id });
       res.status(200).json(reviews);

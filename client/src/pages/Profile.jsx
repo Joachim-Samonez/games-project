@@ -98,6 +98,25 @@ const Profile = () => {
     }
   };
 
+  const handleReviewDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/server/review/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      setUserReviews((prev) =>
+        prev.filter((review) => review._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Profile</h1>
@@ -160,7 +179,7 @@ const Profile = () => {
 
       {userReviews && userReviews.length > 0 && (
         <div className="flex flex-col gap-4">
-          <h1 className="text-center my-7 text-2xl font-semibold">
+          <h1 className="text-center mt-7 text-2xl font-semibold">
             Your Reviews
           </h1>
           {userReviews.map((review) => (
@@ -181,7 +200,12 @@ const Profile = () => {
                 <p>{review.title}</p>
               </Link>
               <div className="flex flex-col item-center">
-                <button className="text-red-700">DELETE</button>
+                <button
+                  onClick={() => handleReviewDelete(review._id)}
+                  className="text-red-700"
+                >
+                  DELETE
+                </button>
                 <button className="text-green-700">EDIT</button>
               </div>
             </div>
