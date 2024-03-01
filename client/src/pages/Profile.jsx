@@ -150,7 +150,7 @@ const Profile = () => {
         </button>
         <Link
           className="bg-green-700 text-white p-3 rounded-lg text-center hover:opacity-95"
-          to={"/review"}
+          to={"/create-review"}
         >
           GAMES REVIEW
         </Link>
