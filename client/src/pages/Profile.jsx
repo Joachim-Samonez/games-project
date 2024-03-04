@@ -191,7 +191,7 @@ const Profile = () => {
                 <img
                   src={review.imageUrls[0]}
                   className="h-16 w-16 object-contain"
-                ></img>
+                />
               </Link>
               <Link
                 to={`/review/${review._id}`}

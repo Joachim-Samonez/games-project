@@ -30,6 +30,10 @@ const reviewSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    userRef: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
