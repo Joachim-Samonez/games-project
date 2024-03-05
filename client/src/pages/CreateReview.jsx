@@ -146,7 +146,7 @@ export default function CreateReview() {
             id="title"
             placeholder="Title"
             maxLength="60"
-            minLength="10"
+            minLength="2"
             className="border p-3 rounded-lg"
             onChange={handleChange}
             value={formData.title}

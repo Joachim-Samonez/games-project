@@ -206,7 +206,9 @@ const Profile = () => {
                 >
                   DELETE
                 </button>
-                <button className="text-green-700">EDIT</button>
+                <Link to={`/update-review/${review._id}`}>
+                  <button className="text-green-700">EDIT</button>
+                </Link>
               </div>
             </div>
           ))}

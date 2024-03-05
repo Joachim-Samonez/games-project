@@ -9,7 +9,7 @@ import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function Review() {
+export default function UpdateReview() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const params = useParams();
@@ -43,7 +43,7 @@ export default function Review() {
     };
 
     fetchReview();
-  });
+  }, [params.reviewId]);
 
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 4) {
@@ -166,7 +166,7 @@ export default function Review() {
             id="title"
             placeholder="Title"
             maxLength="60"
-            minLength="10"
+            minLength="2"
             className="border p-3 rounded-lg"
             onChange={handleChange}
             value={formData.title}

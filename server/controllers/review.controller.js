@@ -32,7 +32,7 @@ export const deleteReview = async (req, res, next) => {
 export const updateReview = async (req, res, next) => {
   const review = await Review.findById(req.params.id);
 
-  if (!listing) {
+  if (!review) {
     return next(errorHandler(404, "Review not found!"));
   }
   if (req.user.id !== review.userRef) {

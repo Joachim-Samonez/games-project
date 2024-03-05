@@ -6,8 +6,8 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import CreateReview from "./pages/CreateReview";
-import EditReview from "./pages/EditReview";
-import Review from "./pages/CreateReview";
+import Review from "./pages/Review";
+import UpdateReview from "./pages/UpdateReview";
 import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
@@ -23,7 +23,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-review" element={<CreateReview />} />
-          <Route path="/edit-review/:reviewId" element={<EditReview />} />
+          <Route path="/update-review/:reviewId" element={<UpdateReview />} />
         </Route>
       </Routes>
     </BrowserRouter>
