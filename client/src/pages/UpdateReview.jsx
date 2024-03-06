@@ -22,7 +22,6 @@ export default function UpdateReview() {
     pc: false,
     playstation: false,
     xbox: false,
-    switch: false,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -46,7 +45,7 @@ export default function UpdateReview() {
   }, [params.reviewId]);
 
   const handleImageSubmit = () => {
-    if (files.length > 0 && files.length + formData.imageUrls.length < 4) {
+    if (files.length > 0 && files.length + formData.imageUrls.length < 2) {
       setUploading(true);
       setImageUploadError(false);
       const promises = [];
@@ -68,7 +67,7 @@ export default function UpdateReview() {
           setUploading(false);
         });
     } else {
-      setImageUploadError("You can only upload 6 images per review");
+      setImageUploadError("You can only upload 1 image per review");
       setUploading(false);
     }
   };
@@ -115,8 +114,7 @@ export default function UpdateReview() {
     if (
       e.target.id === "pc" ||
       e.target.id === "playstation" ||
-      e.target.id === "xbox" ||
-      e.target.id === "switch"
+      e.target.id === "xbox"
     ) {
       setFormData({
         ...formData,
@@ -129,7 +127,7 @@ export default function UpdateReview() {
     e.preventDefault();
     try {
       if (formData.imageUrls.length < 1)
-        return setError("You must upload at least one image");
+        return setError("You must upload an image");
       setLoading(true);
       setError(false);
       const res = await fetch(`/server/review/update/${params.reviewId}`, {
@@ -140,6 +138,7 @@ export default function UpdateReview() {
         body: JSON.stringify({
           ...formData,
           userRef: currentUser._id,
+          author: currentUser.username,
         }),
       });
       const data = await res.json();
@@ -173,6 +172,7 @@ export default function UpdateReview() {
             required
           />
           <textarea
+            rows="8"
             type="text"
             id="review"
             placeholder="Review"
@@ -182,6 +182,7 @@ export default function UpdateReview() {
             required
           />
           <div className="flex gap-6 flex-wrap">
+            <p>Available on:</p>
             <div className="flex gap-2">
               <input
                 type="checkbox"
@@ -212,23 +213,13 @@ export default function UpdateReview() {
               />
               <span>Xbox</span>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="switch"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.switch}
-              />
-              <span>Switch</span>
-            </div>
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-4">
           <p className="font-semibold">
-            Images:
+            Select cover:
             <span className="font-normal text-gray-700 ml-2">
-              The first image will be the cover
+              You can only upload one image
             </span>
           </p>
           <div className="flex gap-4">

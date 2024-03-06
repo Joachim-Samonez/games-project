@@ -26,11 +26,11 @@ const reviewSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    switch: {
-      type: Boolean,
+    userRef: {
+      type: String,
       required: true,
     },
-    userRef: {
+    author: {
       type: String,
       required: true,
     },
