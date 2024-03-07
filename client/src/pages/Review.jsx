@@ -30,6 +30,7 @@ export default function Review() {
     };
     fetchReview();
   }, [params.reviewId]);
+
   return (
     <main>
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
@@ -55,11 +56,31 @@ export default function Review() {
               <li> | </li>
               {review.createdAt !== review.updatedAt && (
                 <ul className="font-thin text-sm flex flex-wrap items-center gap-4 sm:gap-6">
-                  <li>Updated: {review.updatedAt}</li>
+                  <li>
+                    Updated:{" "}
+                    {new Date(review.updatedAt).toLocaleDateString("en-PH", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      timeZone: "Asia/Manila",
+                    })}
+                  </li>
                   <li> | </li>
                 </ul>
               )}
-              <li>Posted: {review.createdAt}</li>
+              <li>
+                Posted:{" "}
+                {new Date(review.createdAt).toLocaleDateString("en-PH", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  timeZone: "Asia/Manila",
+                })}
+              </li>
             </ul>
             <hr />
             <p className="text-slate-800">

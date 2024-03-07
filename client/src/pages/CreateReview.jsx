@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -25,6 +26,8 @@ export default function CreateReview() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userReviews, setUserReviews] = useState([]);
+  const [showReviewsError, setShowReviewsError] = useState(false);
 
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 2) {
@@ -132,6 +135,44 @@ export default function CreateReview() {
     } catch (error) {
       setError(error.message);
       setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleShowReviews = async () => {
+      try {
+        setShowReviewsError(false);
+        const res = await fetch(`/server/user/reviews/${currentUser._id}`);
+        const data = await res.json();
+        if (data.success === false) {
+          setShowReviewsError(true);
+          return;
+        }
+        setUserReviews(data);
+      } catch (error) {
+        setShowReviewsError(true);
+      }
+    };
+
+    handleShowReviews();
+  });
+
+  const handleReviewDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/server/review/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      setUserReviews((prev) =>
+        prev.filter((review) => review._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -251,6 +292,53 @@ export default function CreateReview() {
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
       </form>
+
+      <hr className="my-4" />
+      <h1 className="text-3xl font-semibold text-center my-7">Your Reviews</h1>
+      {userReviews && userReviews.length === 0 && (
+        <p className="text-red-700 mt-5 text-center">
+          You have no reviews yet!
+        </p>
+      )}
+      <div className="p-1 max-w-2xl mx-auto">
+        {userReviews && userReviews.length > 0 && (
+          <div className="flex flex-col gap-4">
+            {userReviews.map((review) => (
+              <div
+                key={review._id}
+                className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              >
+                <Link to={`/review/${review._id}`}>
+                  <img
+                    src={review.imageUrls[0]}
+                    className="h-16 w-16 object-contain"
+                  />
+                </Link>
+                <Link
+                  to={`/review/${review._id}`}
+                  className="text-slate-700 font-semibold hover:underline truncate flex-1"
+                >
+                  <p>{review.title}</p>
+                </Link>
+                <div className="flex flex-col item-center">
+                  <button
+                    onClick={() => handleReviewDelete(review._id)}
+                    className="text-red-700"
+                  >
+                    DELETE
+                  </button>
+                  <Link to={`/update-review/${review._id}`}>
+                    <button className="text-green-700">EDIT</button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <p className="text-red-700 mt-5 text-center">
+          {showReviewsError ? "Error displaying reviews" : ""}
+        </p>
+      </div>
     </main>
   );
 }
