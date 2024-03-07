@@ -70,9 +70,10 @@ export const getReviews = async (req, res, next) => {
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
 
-    let author = req.query.author;
+    const author = req.query.author;
+    const query = author ? { author: author } : {};
 
-    const reviews = await Review.find({})
+    const reviews = await Review.find(query)
       .sort({
         [sort]: order,
       })
